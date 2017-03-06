@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<!--
+ This page is shown when the extension button is clicked, because the
+ "browser_action" field in manifest.json contains the "default_popup" key with
+ value "popup.html".
+-->
+<html>
+<head>
+  <title>Bolor Toli-догч</title>
+  <style>
+    html {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+    *, *:before, *:after {
+      -webkit-box-sizing: inherit;
+      -moz-box-sizing: inherit;
+      box-sizing: inherit;
+    }
+    .clearfix:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+    input[type=text], textarea {
+      -webkit-transition: all 0.30s ease-in-out;
+      -moz-transition: all 0.30s ease-in-out;
+      -ms-transition: all 0.30s ease-in-out;
+      -o-transition: all 0.30s ease-in-out;
+      border: 1px solid #DDDDDD;
+      outline: none;
+    }
+
+    input[type=text]:focus, textarea:focus {
+      border: 1px solid #724f33;
+    }
+    body {
+      font-family: Arial, Tahoma, sans-serif;
+      font-size: 100%;
+
+      width: 350px;
+      position: relative;
+    }
+    .content{
+      padding: 15px;
+      overflow: hidden;
+    }
+    #search-bar{
+      width: 100%;
+    }
+    #search-bar .text-input{
+      float: left;
+      width: 85%;
+      padding: 7px 10px;
+      height: 33px;
+    }
+    #search-bar .sw-button{
+      width: 15%;
+      float: left;
+      cursor: pointer;
+      height: 33px;
+      color: #fff;
+      text-indent: -9999px;
+      overflow: hidden;
+      background: #724f33 url(search.png) no-repeat center center;
+      display: inline-block;
+    }
+    .sw-footer{
+      font-size: 12px;
+      padding: 0px 15px 15px;
+    }
+  </style>
+
+  <script src="popup.js"></script>
+</head>
+<body>
+
+  <div class="content">
+    <div id="search-bar" class="clearfix">
+      <input type="text" name="text-input" class="text-input" placeholder="Хайх..." id="text-input" autofocus="">
+      <div role="button" class="inline-block sw-button sw-button-action" id="sw-button" tabindex="0" style="user-select: none;">Орчуулах</div>
+    </div>
+  </div>
+
+  <footer class="sw-footer">
+    © <span id="year">2017</span> SWGANZO -
+    <a class="sw-a" id="translate-link" target="_blank" href="http://bolor-toli.com/?source=swganzo">BOLOR-TOLI.com</a>
+  </footer>
+
+</body>
+</html>
+
