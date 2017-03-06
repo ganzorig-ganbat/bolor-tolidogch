@@ -39,6 +39,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Search button click event
   document.getElementById("sw-button").addEventListener("click", function( event ) {
+    event.preventDefault();
+
     var value = text_input.value;
 
     if( value.trim() === '' ){
@@ -97,6 +99,16 @@ document.addEventListener('DOMContentLoaded', function () {
     // Setting variables to context.js
     set_variables();
 
+  });
+
+
+  document.getElementById("text-input")
+  .addEventListener("keyup", function(event) {
+    event.preventDefault();
+    // Hit enter
+    if (event.keyCode == 13) {
+      document.getElementById("sw-button").click();
+    }
   });
 });
 
