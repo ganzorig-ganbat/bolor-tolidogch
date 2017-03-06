@@ -1,7 +1,7 @@
 /* Copyright (c) 2017 SWGANZO. All rights reserved. */
 var bg,
 text_input,
-bolor_url,
+bolor_url = "http://bolor-toli.com/dictionary/word?search=",
 window_id,
 tab_id,
 w,
