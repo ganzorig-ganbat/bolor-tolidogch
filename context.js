@@ -5,6 +5,7 @@
 // Bolor toli url
 var bolor_url = "http://bolor-toli.com/dictionary/word?search=",
 window_id = 0,
+clicked   = false,
 tab_id    = 0,
 w         = 500,
 h         = 600;
@@ -13,16 +14,51 @@ h         = 600;
 
 // Check if window opened ( return true or false )
 function is_window_opened(){
-  return (window_id !== 0);
+  return (window_id != 0);
 }
 
 
-// Remove window event
+
+//  onCreated window event
+chrome.windows.onCreated.addListener(function(window) {
+  // Clicked our app
+  if( clicked === false ){
+    return;
+  }
+
+  // If window not opened
+  if( !is_window_opened() ){
+    // Set window id
+    window_id = window.id;
+
+    chrome.tabs.getAllInWindow(window_id, function(tabs) {
+      tab_id = tabs[0].id;
+    });
+  }
+
+  // Set clicked to default value
+  clicked = false;
+});
+
+
+
+// onRemoved window event
 chrome.windows.onRemoved.addListener(function(windowId) {
   if( window_id === windowId ){
     window_id = 0;
+    tab_id = 0;
+    clicked = false;
   }
 });
+
+
+// Listen popup.js message
+chrome.runtime.onMessage.addListener(
+  function(request, sender, sendResponse) {
+    if (request.set_variables == "asdf"){
+      clicked = true;
+    }
+  });
 
 
 
@@ -32,28 +68,26 @@ function onClickHandler(info, tab) {
     var url = bolor_url + encodeURIComponent( info.selectionText );
 
     var args = {
-      'left'        : 0,
-      'top'         : 0,
-      'width'       : w,
-      'height'      : h,
-      'type'        : 'panel',
-      'focused'     : true,
-      'url'         : url
+      'left'    : 0,
+      'top'     : 0,
+      'width'   : w,
+      'height'  : h,
+      'type'    : 'panel',
+      'focused' : true,
+      'url'     : url
     }
 
-    // Check if window openned
+
+    // Clicked
+    clicked = true;
+
+
+    // Check if window opened
     if( !is_window_opened() ){
 
       try {
 
-        chrome.windows.create(args,
-          function(window) {
-            window_id = window.id;
-
-            chrome.tabs.getAllInWindow(window_id, function(tabs) {
-              tab_id = tabs[0].id;
-            });
-          });
+        chrome.windows.create(args);
 
       } catch(e) {
         alert(e);
@@ -80,6 +114,7 @@ function onClickHandler(info, tab) {
 
 
 
+// Context menu click handler
 chrome.contextMenus.onClicked.addListener(onClickHandler);
 
 
