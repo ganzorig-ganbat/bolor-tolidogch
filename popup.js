@@ -1,58 +1,60 @@
 /* Copyright (c) 2017 SWGANZO. All rights reserved. */
 var bg,
 text_input,
-search_btn,
+selected_lang,
 bolor_url = "http://bolor-toli.com/dictionary/word?search=",
-window_id = 0,
-tab_id = 0,
-w = 500,
-h = 600;
+bolor_lang = "&selected_lang=",
+window_id,
+tab_id,
+w,
+h;
 
-// Check if window opened
-function is_window_opened(){
-  var bgPage = chrome.extension.getBackgroundPage();
-
-  if( window_id === 0 ){
-    window_id = bgPage.window_id;
-    tab_id = bgPage.tab_id;
-  }else{
-    bgPage.window_id = window_id;
-    bgPage.tab_id = tab_id;
-  }
-
-  return (window_id != 0);
+// Get variables from context.js
+function get_variables(){
+  bolor_url = bg.bolor_url;
+  window_id = bg.window_id;
+  tab_id    = bg.tab_id;
+  w         = bg.w;
+  h         = bg.h;
 }
 
 
 
-// Set clicked to true
-function set_clicked(){
-  chrome.runtime.sendMessage({
-    set_variables: "asdf"
-  }, function(response) {
-
-  });
+// Set variables to context.js
+function set_variables(){
+  bg.window_id = window_id;
+  bg.tab_id    = tab_id;
 }
 
 
 
 // Dom content loaded event
 document.addEventListener('DOMContentLoaded', function () {
+  // Defining variables
+
+  bg = chrome.extension.getBackgroundPage();
+
+  // Getting variables from context.js
+  get_variables();
 
   text_input = document.getElementById("text-input");
-  search_btn = document.getElementById("sw-button");
+  selected_lang = document.getElementById("selected_lang");
 
   // Search button click event
-  search_btn.addEventListener("click", function( event ) {
+  document.getElementById("sw-button").addEventListener("click", function( event ) {
     event.preventDefault();
 
     var value = text_input.value;
+    var lang = selected_lang.value;
 
     if( value.trim() === '' ){
       return;
     }
 
-    var url = bolor_url + encodeURIComponent( value );
+    // Get variables when click button
+    get_variables();
+
+    var url = bolor_url + encodeURIComponent( value ) + bolor_lang + encodeURIComponent( lang );
 
 
     var args = {
@@ -65,14 +67,18 @@ document.addEventListener('DOMContentLoaded', function () {
       'url'         : url
     }
 
-    // Set clicked to true
-    set_clicked();
-
     // Check if window has opened or not
-    if( !is_window_opened() ){
+    if( window_id === 0 ){
       try {
 
-        chrome.windows.create(args);
+        chrome.windows.create(args,
+          function(window) {
+            window_id = window.id;
+
+            chrome.tabs.getAllInWindow(window_id, function(tabs) {
+              tab_id = tabs[0].id;
+            });
+          });
 
       } catch(e) {
         alert(e);
@@ -94,13 +100,18 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     }
 
+    // Setting variables to context.js
+    set_variables();
+
   });
 
-  text_input.addEventListener("keyup", function(event) {
+
+  document.getElementById("text-input")
+  .addEventListener("keyup", function(event) {
     event.preventDefault();
     // Hit enter
     if (event.keyCode == 13) {
-      search_btn.click();
+      document.getElementById("sw-button").click();
     }
   });
 });
