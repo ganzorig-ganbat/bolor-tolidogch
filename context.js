@@ -7,6 +7,7 @@ var bolor_url = "http://bolor-toli.com/dictionary/word?search=",
 lang_url  = "&selected_lang=",
 window_id = 0,
 tab_id    = 0,
+clicked   = false,
 w         = 500,
 h         = 600,
 lang_map  = [];
@@ -24,12 +25,48 @@ function is_window_opened(){
 }
 
 
-// Remove window event
+
+//  onCreated window event
+chrome.windows.onCreated.addListener(function(window) {
+  // Clicked our app
+  if( clicked === false ){
+    return;
+  }
+
+  // If window not opened
+  if( !is_window_opened() ){
+    // Set window id
+    window_id = window.id;
+
+    chrome.tabs.getAllInWindow(window_id, function(tabs) {
+      tab_id = tabs[0].id;
+    });
+  }
+
+  // Set clicked to default value
+  clicked = false;
+});
+
+
+
+// onRemoved window event
 chrome.windows.onRemoved.addListener(function(windowId) {
   if( window_id === windowId ){
     window_id = 0;
+    tab_id = 0;
+    clicked = false;
   }
 });
+
+
+
+// Listen popup.js message
+chrome.runtime.onMessage.addListener(
+  function(request, sender, sendResponse) {
+    if (request.set_variables == "asdf"){
+      clicked = true;
+    }
+  });
 
 
 
@@ -47,19 +84,15 @@ function onClickHandler(info, tab) {
     'url'         : url
   }
 
-  // Check if window openned
+  // Clicked
+  clicked = true;
+
+  // Check if window opened
   if( !is_window_opened() ){
 
     try {
 
-      chrome.windows.create(args,
-          function(window) {
-            window_id = window.id;
-
-            chrome.tabs.getAllInWindow(window_id, function(tabs) {
-              tab_id = tabs[0].id;
-            });
-          });
+      chrome.windows.create(args);
 
     } catch(e) {
       alert(e);
@@ -68,24 +101,22 @@ function onClickHandler(info, tab) {
   }else{
 
     try {
-
       chrome.windows.update(window_id, {focused: true});
 
       chrome.tabs.update(tab_id, {
         'url' : url,
         'active': true
       });
-
     } catch(e) {
       alert(e);
     }
-
   }
+
 };
 
 
 
-chrome.contextMenus.onClicked.addListener(onClickHandler);
+  chrome.contextMenus.onClicked.addListener(onClickHandler);
 
 
 
