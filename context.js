@@ -4,16 +4,23 @@
 
 // Bolor toli url
 var bolor_url = "http://bolor-toli.com/dictionary/word?search=",
+lang_url  = "&selected_lang=",
 window_id = 0,
 tab_id    = 0,
 w         = 500,
-h         = 600;
+h         = 600,
+lang_map  = [];
+
+lang_map['mon2eng'] = '4-1';
+lang_map['mon2ger'] = '4-5';
+lang_map['mon2kor'] = '4-7';
+lang_map['mon2jap'] = '4-8';
 
 
 
 // Check if window opened ( return true or false )
 function is_window_opened(){
-  return (window_id !== 0);
+  return (window_id != 0);
 }
 
 
@@ -28,25 +35,24 @@ chrome.windows.onRemoved.addListener(function(windowId) {
 
 // The onClicked callback function.
 function onClickHandler(info, tab) {
-  if (info.menuItemId == "contextSelection") {
-    var url = bolor_url + encodeURIComponent( info.selectionText );
+  var url = bolor_url + encodeURIComponent( info.selectionText ) + lang_url + lang_map[info.menuItemId];
 
-    var args = {
-      'left'        : 0,
-      'top'         : 0,
-      'width'       : w,
-      'height'      : h,
-      'type'        : 'panel',
-      'focused'     : true,
-      'url'         : url
-    }
+  var args = {
+    'left'        : 0,
+    'top'         : 0,
+    'width'       : w,
+    'height'      : h,
+    'type'        : 'panel',
+    'focused'     : true,
+    'url'         : url
+  }
 
-    // Check if window openned
-    if( !is_window_opened() ){
+  // Check if window openned
+  if( !is_window_opened() ){
 
-      try {
+    try {
 
-        chrome.windows.create(args,
+      chrome.windows.create(args,
           function(window) {
             window_id = window.id;
 
@@ -55,26 +61,25 @@ function onClickHandler(info, tab) {
             });
           });
 
-      } catch(e) {
-        alert(e);
-      }
-
-    }else{
-
-      try {
-
-        chrome.windows.update(window_id, {focused: true});
-
-        chrome.tabs.update(tab_id, {
-          'url' : url,
-          'active': true
-        });
-
-      } catch(e) {
-        alert(e);
-      }
-
+    } catch(e) {
+      alert(e);
     }
+
+  }else{
+
+    try {
+
+      chrome.windows.update(window_id, {focused: true});
+
+      chrome.tabs.update(tab_id, {
+        'url' : url,
+        'active': true
+      });
+
+    } catch(e) {
+      alert(e);
+    }
+
   }
 };
 
@@ -87,5 +92,29 @@ chrome.contextMenus.onClicked.addListener(onClickHandler);
 // Set up context menu tree at install time.
 chrome.runtime.onInstalled.addListener(function() {
   // Create context menu when select
-  chrome.contextMenus.create({"title": "Bolor toli-дох", "contexts":["selection"], "id": "contextSelection"});
+  chrome.contextMenus.create({"title": "Bolor toli-дох", "contexts":["selection"], "id": "langSelection"});
+  chrome.contextMenus.create({
+    "title": "Монгол <> Англи",
+    "parentId": "langSelection",
+    "id": "mon2eng",
+    "contexts":["selection"]
+  });
+  chrome.contextMenus.create({
+    "title": "Монгол <> Герман",
+    "parentId": "langSelection",
+    "id": "mon2ger",
+    "contexts":["selection"]
+  });
+  chrome.contextMenus.create({
+    "title": "Монгол <> Солонгос",
+    "parentId": "langSelection",
+    "id": "mon2kor",
+    "contexts":["selection"]
+  });
+  chrome.contextMenus.create({
+    "title": "Монгол <> Япон",
+    "parentId": "langSelection",
+    "id": "mon2jap",
+    "contexts":["selection"]
+  });
 });
