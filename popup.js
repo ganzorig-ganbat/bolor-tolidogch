@@ -1,7 +1,9 @@
 /* Copyright (c) 2017 SWGANZO. All rights reserved. */
 var bg,
 text_input,
+selected_lang,
 bolor_url = "http://bolor-toli.com/dictionary/word?search=",
+bolor_lang = "&selected_lang=",
 window_id,
 tab_id,
 w,
@@ -36,12 +38,14 @@ document.addEventListener('DOMContentLoaded', function () {
   get_variables();
 
   text_input = document.getElementById("text-input");
+  selected_lang = document.getElementById("selected_lang");
 
   // Search button click event
   document.getElementById("sw-button").addEventListener("click", function( event ) {
     event.preventDefault();
 
     var value = text_input.value;
+    var lang = selected_lang.value;
 
     if( value.trim() === '' ){
       return;
@@ -50,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Get variables when click button
     get_variables();
 
-    var url = bolor_url + encodeURIComponent( value );
+    var url = bolor_url + encodeURIComponent( value ) + bolor_lang + encodeURIComponent( lang );
 
 
     var args = {
