@@ -4,58 +4,43 @@ selected_lang,
 search_btn,
 bolor_url = "http://bolor-toli.com/dictionary/word?search=",
 bolor_lang = "&selected_lang=",
-window_id = 0,
-tab_id = 0,
 w = 500,
 h = 600;
 
 
 
-// Check if window opened
-function is_window_opened(){
-  var bgPage = chrome.extension.getBackgroundPage();
-
-  if( window_id === 0 ){
-    window_id = bgPage.window_id;
-    tab_id = bgPage.tab_id;
-  }else{
-    bgPage.window_id = window_id;
-    bgPage.tab_id = tab_id;
+// Get window id
+function get_window_id(){
+  if( !localStorage.getItem('sw_window_id') ){
+    localStorage.setItem('sw_window_id', 0);
   }
 
-  return (window_id != 0);
+  return localStorage.getItem('sw_window_id');
 }
 
 
 
-// Set clicked to true
-function set_clicked(){
-  chrome.runtime.sendMessage({
-    set_variables: "asdf"
-  }, function(response) {
-
-  });
+// Remove window id
+function remove_window_id(){
+  localStorage.removeItem('sw_window_id');
+  localStorage.removeItem('sw_tab_id');
 }
 
 
 
 // Dom content loaded event
 document.addEventListener('DOMContentLoaded', function () {
-
   text_input = document.getElementById("text-input");
   search_btn = document.getElementById("sw-button");
   selected_lang = document.getElementById("selected_lang");
 
 
   // Restore selected lang
-  if (chrome.storage) {
-    chrome.storage.local.get('lang', function (data) {
-      if (data.lang) {
-        selected_lang.value = data.lang;
-      }
-    });
+  if( !localStorage.getItem('sw_lang') ){
+    localStorage.setItem('sw_lang', '4-1');
   }
 
+  selected_lang.value = localStorage.getItem('sw_lang');
 
   // Search button click event
   search_btn.addEventListener("click", function( event ) {
@@ -81,45 +66,42 @@ document.addEventListener('DOMContentLoaded', function () {
       'url'         : url
     }
 
-    // Set clicked to true
-    set_clicked();
 
-    // Check if window has opened or not
-    if( !is_window_opened() ){
-      try {
+    try {
+      // Update windows
+      chrome.windows.update(parseInt( get_window_id() ), { focused: true }, function() {
+        console.log(chrome.runtime.lastError);
+        // if error exists
+        if (chrome.runtime.lastError) {
+          // Create window
+          chrome.windows.create( args,
+            function(chromeWindow) {
+              // Set window id
+              localStorage.setItem('sw_window_id', chromeWindow.id);
 
-        chrome.windows.create(args);
+              // Set tab id
+              chrome.tabs.getAllInWindow(parseInt( get_window_id() ), function(tabs) {
+                localStorage.setItem( 'sw_tab_id', tabs[0].id );
+              });
+            });
+        }else{
 
-      } catch(e) {
-        alert(e);
-      }
+          chrome.tabs.update( parseInt( localStorage.getItem('sw_tab_id') ), {
+            'url' : url,
+            'active': true
+          });
 
-    }else{
-
-      try {
-
-        chrome.windows.update(window_id, {focused: true});
-
-        chrome.tabs.update(tab_id, {
-          'url' : url,
-          'active': true
-        });
-
-      } catch(e) {
-        alert(e);
-      }
+        }
+      });
+    } catch(e) {
+      alert(e);
     }
   });
 
-
   // Keep lang setting
-  if (chrome.storage) {
-    selected_lang.addEventListener('change', function(event) {
-      chrome.storage.local.set({
-        'lang': selected_lang.value
-      });
-    });
-  }
+  selected_lang.addEventListener('change', function(event) {
+    localStorage.setItem('sw_lang', selected_lang.value);
+  });
 
 
   text_input.addEventListener("keyup", function(event) {
