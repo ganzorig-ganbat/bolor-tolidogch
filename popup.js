@@ -46,6 +46,17 @@ document.addEventListener('DOMContentLoaded', function () {
   search_btn = document.getElementById("sw-button");
   selected_lang = document.getElementById("selected_lang");
 
+
+  // Restore selected lang
+  if (chrome.storage) {
+    chrome.storage.local.get('lang', function (data) {
+      if (data.lang) {
+        selected_lang.value = data.lang;
+      }
+    });
+  }
+
+
   // Search button click event
   search_btn.addEventListener("click", function( event ) {
     event.preventDefault();
@@ -99,6 +110,16 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     }
   });
+
+
+  // Keep lang setting
+  if (chrome.storage) {
+    selected_lang.addEventListener('change', function(event) {
+      chrome.storage.local.set({
+        'lang': selected_lang.value
+      });
+    });
+  }
 
 
   text_input.addEventListener("keyup", function(event) {
