@@ -6,6 +6,7 @@
 -->
 <html>
 <head>
+  <meta charset="UTF-8"/>
   <title>Bolor Toli-догч</title>
   <style>
     html {
@@ -90,23 +91,28 @@
     }
   </style>
 
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="https://malsup.github.io/min/jquery.form.min.js"></script>
   <script src="popup.js"></script>
 </head>
 <body>
 
-  <div class="content">
-    <div id="search-bar" class="clearfix">
-      <select id="selected_lang" name="selected_lang" class="select-lang">
-        <option value="4-1" selected>Монгол <> Англи</option>
-        <option value="4-5">Монгол <> Герман</option>
-        <option value="4-7">Монгол <> Солонгос</option>
-        <option value="4-8">Монгол <> Япон</option>
-      </select>
-      <input type="text" name="text-input" class="text-input" placeholder="Хайх..." id="text-input" autofocus="">
-      <div role="button" class="inline-block sw-button sw-button-action" id="sw-button" tabindex="0" style="user-select: none;">Орчуулах</div>
-    </div>
-  </div>
-
+<div class="content">
+    <form id="search-bar" class="clearfix" action="https://bolor-tolidogch-api.appspot.com/search" method="get">
+        <select id="selected_lang" name="selected_lang" class="select-lang">
+            <option value="4-1" selected>Монгол <> Англи</option>
+            <option value="4-5">Монгол <> Герман</option>
+            <option value="4-7">Монгол <> Солонгос</option>
+            <option value="4-8">Монгол <> Япон</option>
+        </select>
+        <input type="text" name="q" class="text-input" placeholder="Хайх..." autofocus="">
+        <button type="submit" class="inline-block sw-button sw-button-action" tabindex="0" style="user-select: none;">
+            Орчуулах
+        </button>
+    </form>
+</div>
+<div id="search-result">
+</div>
 </body>
 </html>
 
