@@ -3,6 +3,9 @@ function pasteSelection() {
         function(tab) {
             chrome.tabs.sendMessage(tab[0].id, {method: "getSelection"},
                 function(response){
+                    if (response === undefined){
+                        return;
+                    }
                     var selectedText = response.data;
 
                     if (selectedText.length > 0) {
@@ -19,6 +22,9 @@ $(function(){
         target: '#search-result',
         beforeSerialize: function($form, options){
             $('#search-result').html('<h2>Loading</h2>');
+        },
+        error: function(){
+            $('#search-result').html('Request Failed. Try Again Later.');
         }
     });
 
