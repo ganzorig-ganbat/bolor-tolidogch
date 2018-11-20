@@ -18,7 +18,7 @@ $(function(){
     $('#search-bar').ajaxForm({
         target: '#search-result',
         beforeSerialize: function($form, options){
-            $('#search-result').html('<h2>Loading...</h2>');
+            $('#search-result').html('<h2>Loading</h2>');
         }
     });
 
