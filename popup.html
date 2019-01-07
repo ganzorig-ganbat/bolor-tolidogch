@@ -65,6 +65,7 @@
       text-indent: -9999px;
       overflow: hidden;
       background: #724f33 url(search.png) no-repeat center center;
+      border:none;
       display: inline-block;
     }
     .select-lang{
@@ -89,25 +90,100 @@
     .select-lang:focus, .select-lang:focus option{
       border-color: #724f33;
     }
+    #search-result{
+        padding: 0 15px;
+        overflow: hidden;
+    }
+    #search-result h3{
+        background-color: #dcc889;
+        color: #633c1c !important;
+        font-weight: bold;
+        cursor: default;
+        font-size: 14px;
+        padding: 3px;
+        text-align: center;
+    }
+    #search-result p{
+        text-align: center;
+        font-size: 14px;
+        color: #633c1c;
+    }
+    #search-result table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+    #search-result td, th {
+        border: 1px solid #D5C594;
+        font-size: 12px;
+        text-align: left;
+        padding: 8px;
+    }
+    #search-result tr > td:nth-child(1) {
+        font-weight: bold;
+    }
+    #search-result tr > td:nth-child(3) {
+        color: #428bca;
+    }
+    #search-result tr:nth-child(even) {
+        background: #fef8d6;
+    }
+    #search-result h2 {
+        font-size: 14px;
+        background-color: #dcc889;
+        color: #633c1c !important;
+        font-weight: bold;
+        cursor: default;
+        padding: 5px;
+        text-align: center;
+    }
+
+    #search-result h2:after {
+        overflow: hidden;
+        display: inline-block;
+        vertical-align: bottom;
+        -webkit-animation: ellipsis steps(4,end) 900ms infinite;
+        animation: ellipsis steps(4,end) 900ms infinite;
+        content: "\2026"; /* ascii code for the ellipsis character */
+        width: 0px;
+    }
+
+    @keyframes ellipsis {
+        to {
+            width: 1.25em;
+        }
+    }
+
+    @-webkit-keyframes ellipsis {
+        to {
+            width: 1.25em;
+        }
+    }
+
   </style>
 
+  <script src="jquery.min.js"></script>
+  <script src="jquery.form.min.js"></script>
   <script src="popup.js"></script>
 </head>
 <body>
 
-  <div class="content">
-    <div id="search-bar" class="clearfix">
-      <select id="selected_lang" name="selected_lang" class="select-lang">
-        <option value="4-1" selected>Монгол <> Англи</option>
-        <option value="4-5">Монгол <> Герман</option>
-        <option value="4-7">Монгол <> Солонгос</option>
-        <option value="4-8">Монгол <> Япон</option>
-      </select>
-      <input type="text" name="text-input" class="text-input" placeholder="Хайх..." id="text-input" autofocus="">
-      <div role="button" class="inline-block sw-button sw-button-action" id="sw-button" tabindex="0" style="user-select: none;">Орчуулах</div>
-    </div>
-  </div>
-
+<div class="content">
+    <form id="search-bar" class="clearfix" action="https://bolor-tolidogch-api.appspot.com/search" method="get">
+        <select id="selected_lang" name="selected_lang" class="select-lang">
+            <option value="4-1" selected>Монгол <> Англи</option>
+            <option value="4-5">Монгол <> Герман</option>
+            <option value="4-7">Монгол <> Солонгос</option>
+            <option value="4-8">Монгол <> Япон</option>
+        </select>
+        <input type="text" name="q" class="text-input" placeholder="Хайх..." autofocus="">
+        <button type="submit" class="inline-block sw-button sw-button-action" tabindex="0" style="user-select: none;">
+            Орчуулах
+        </button>
+    </form>
+</div>
+<div id="search-result">
+</div>
 </body>
 </html>
 

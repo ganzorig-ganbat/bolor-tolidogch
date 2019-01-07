@@ -15,6 +15,15 @@
   "permissions"      : ["contextMenus", "tabs", "storage"],
   "background"       : {
     "persistent"       : false,
-    "scripts"          : ["context.js"]
-  }
+    "scripts"          : ["context.js", "selection.js"]
+  },
+  "content_security_policy": "script-src 'self' https://code.jquery.com https://malsup.github.io; object-src 'self'",
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["selection.js"],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ]
 }
