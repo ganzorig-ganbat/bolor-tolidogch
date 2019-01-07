@@ -1,3 +1,4 @@
+/* Copyright (c) 2017 SWGANZO. All rights reserved. */
 function pasteSelection() {
     chrome.tabs.query({active:true, windowId: chrome.windows.WINDOW_ID_CURRENT},
         function(tab) {

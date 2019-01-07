@@ -1,6 +1,6 @@
 {
   "name"             : "Bolor Toli-догч Extension",
-  "version"          : "0.0.1",
+  "version"          : "1.0.1",
   "description"      : "Bolor toli-догч extension by SWGANZO. Unofficial Bolor toli extension.",
   "manifest_version" : 2,
   "browser_action"   : {
@@ -12,7 +12,7 @@
     "16"             : "icon16.png",
     "48"             : "icon48.png",
     "128"            : "icon128.png" },
-  "permissions"      : ["contextMenus", "tabs"],
+  "permissions"      : ["contextMenus", "tabs", "storage"],
   "background"       : {
     "persistent"       : false,
     "scripts"          : ["context.js", "selection.js"]
