@@ -5,17 +5,17 @@
   "manifest_version": 3,
   "action": {
     "default_title": "Bolor Toli-догч Extension",
-    "default_icon": "icon.png",
-    "default_popup": "popup.html"
+    "default_icon": "images/icon.png",
+    "default_popup": "popup/popup.html"
   },
   "icons": {
-    "16": "icon16.png",
-    "48": "icon48.png",
-    "128": "icon128.png"
+    "16": "images/icon16.png",
+    "48": "images/icon48.png",
+    "128": "images/icon128.png"
   },
   "permissions": ["contextMenus", "tabs", "storage"],
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "scripts/background.js"
   },
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'; script-src-elem 'self' 'unsafe-inline' https://code.jquery.com https://malsup.github.io;"
@@ -23,7 +23,7 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["selection.js"],
+      "js": ["scripts/selection.js"],
       "run_at": "document_start",
       "all_frames": true
     }
