@@ -1,23 +1,25 @@
 {
-  "name"             : "Bolor Toli-догч Extension",
-  "version"          : "1.0.1",
-  "description"      : "Bolor toli-догч extension by SWGANZO. Unofficial Bolor toli extension.",
-  "manifest_version" : 2,
-  "browser_action"   : {
-    "default_title"  : "Bolor Toli-догч Extension",
-    "default_icon"   : "icon.png",
-    "default_popup"  : "popup.html"
+  "name": "Bolor Toli-догч Extension",
+  "version": "1.0.1",
+  "description": "Bolor toli-догч extension by SWGANZO. Unofficial Bolor toli extension.",
+  "manifest_version": 3,
+  "action": {
+    "default_title": "Bolor Toli-догч Extension",
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
   },
-  "icons"            : { 
-    "16"             : "icon16.png",
-    "48"             : "icon48.png",
-    "128"            : "icon128.png" },
-  "permissions"      : ["contextMenus", "tabs", "storage"],
-  "background"       : {
-    "persistent"       : false,
-    "scripts"          : ["context.js", "selection.js"]
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
   },
-  "content_security_policy": "script-src 'self' https://code.jquery.com https://malsup.github.io; object-src 'self'",
+  "permissions": ["contextMenus", "tabs", "storage"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; script-src-elem 'self' 'unsafe-inline' https://code.jquery.com https://malsup.github.io;"
+  },
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
