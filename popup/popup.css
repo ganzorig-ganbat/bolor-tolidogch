@@ -1,0 +1,110 @@
+html {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+  -webkit-box-sizing: inherit;
+  -moz-box-sizing: inherit;
+  box-sizing: inherit;
+}
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+input[type="text"],
+textarea {
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  border: 1px solid #dddddd;
+  outline: none;
+}
+
+input[type="text"]:focus,
+textarea:focus {
+  border: 1px solid #724f33;
+}
+body {
+  font-family: Arial, Tahoma, sans-serif;
+  font-size: 100%;
+
+  width: 350px;
+  position: relative;
+}
+.content {
+  padding: 15px;
+  overflow: hidden;
+}
+#search-form {
+  width: 100%;
+}
+#search-form .text-input {
+  float: left;
+  width: 85%;
+  padding: 7px 10px;
+  height: 33px;
+}
+#search-form .sw-button {
+  width: 15%;
+  float: left;
+  cursor: pointer;
+  height: 33px;
+  color: #fff;
+  text-indent: -9999px;
+  overflow: hidden;
+  background: #724f33 url(../images/search.png) no-repeat center center;
+  border: none;
+  display: inline-block;
+}
+.select-lang {
+  margin-bottom: 20px;
+  display: block;
+  width: 100%;
+  height: 34px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  outline: none;
+  color: #724f33;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #dddddd;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-transition: border-color ease-in-out 0.15s,
+    -webkit-box-shadow ease-in-out 0.15s;
+  -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+}
+.select-lang:focus,
+.select-lang:focus option {
+  border-color: #724f33;
+}
+.hidden-message {
+  visibility: hidden;
+}
+.hidden-message p {
+  font-size: 10px;
+  color: red;
+  margin-bottom: 0;
+}
+.error-message {
+  visibility: visible;
+}
+
+@keyframes ellipsis {
+  to {
+    width: 1.25em;
+  }
+}
+
+@-webkit-keyframes ellipsis {
+  to {
+    width: 1.25em;
+  }
+}
