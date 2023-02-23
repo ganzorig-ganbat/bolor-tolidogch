@@ -50,6 +50,7 @@ const buttonClick = (e) => {
   }
 
   updateWindow(input.value.trim(), select.value);
+  input.value = "";
 };
 
 const getButton = () => {
@@ -69,6 +70,7 @@ const getTextBox = () => {
   text_box.id = "search_field";
   text_box.classList.add("text-input");
   text_box.placeholder = "Хайх...";
+  text_box.autofocus = true;
   return text_box;
 };
 
