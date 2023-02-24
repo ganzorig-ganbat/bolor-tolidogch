@@ -12,11 +12,11 @@ Bolor-toli.com сайт нь Монголчуудын хамгийн ихээр 
 
 - Та энэхүү extension-ийг суулгасанаар орчуулахыг хүссэн текстээ идэвхижүүлэн хулганы баруун гар талын товч буюу "mouse 2" товчоо даран "Bolor tolidoh" гэсэн товч дээр даран орчуулна.
 
-![Bolor tolidogch-ийг хэрэглэх заавар 1](http://i.imgur.com/qEXFiVK.png)
+![Bolor tolidogch-ийг хэрэглэх заавар 1](https://imgur.com/byyVhPA)
 
 - Хөтөчийн баруун дээд талд байрлах Bolor tolidogch-ийн icon буюу жижиг зурган дээр дарж гарч ирэх текст бичих хэсэгт өөрийн орчуулахыг хүссэн үгээ бичин хайх товч дарна.
 
-![Bolor tolidogch-ийг хэрэглэх заавар 2](http://i.imgur.com/W3mhgvF.png)
+![Bolor tolidogch-ийг хэрэглэх заавар 2](https://imgur.com/8KiZxbX)
 
 ## Цаашид сайжруулах:
 
