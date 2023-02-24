@@ -6,7 +6,10 @@ Bolor-toli.com сайт нь Монголчуудын хамгийн ихээр 
 
 ## Суулгах
 
-Дараах холбоосоор орж татаж аваарай. https://chrome.google.com/webstore/detail/bolor-toli-%D0%B4%D0%BE%D0%B3%D1%87-extension/pnijfkjcnhmfndeiaeadoamipoipcoeh
+a. Дараах холбоосоор орж татаж авч суулгаж болно. https://chrome.google.com/webstore/detail/bolor-toli-%D0%B4%D0%BE%D0%B3%D1%87-extension/pnijfkjcnhmfndeiaeadoamipoipcoeh
+
+b. Эсвэл кодыг нь github.com сайтаас татаж аваад суулгахдаа **chrome://extensions** гэсэн хаягаар ороод **"Load unpacked"** гэсэн товч дээр дарж кодын байрлах фолдэрийг зааж өгнө.
+![Bolor tolidogch-ийг суулгах заавар](https://i.imgur.com/lnjMALv.png)
 
 ## Боломжууд:
 
