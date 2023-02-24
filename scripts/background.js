@@ -1,4 +1,4 @@
-/* Copyright (c) 2017 SWGANZO. All rights reserved. */
+/* Copyright (c) 2017 Kenzo. All rights reserved. */
 
 import { bolorLocales } from "./locales.js";
 import { updateWindow } from "./window.js";

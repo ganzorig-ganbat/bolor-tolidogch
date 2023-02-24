@@ -1,3 +1,5 @@
+/* Copyright (c) 2017 Kenzo. All rights reserved. */
+
 export const bolorLocales = [
   {
     direction: "1",

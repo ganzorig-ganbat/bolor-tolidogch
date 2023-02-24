@@ -1,44 +1,65 @@
-const window_key = "windowId";
-const tab_key = "tabId";
-const bolor_url = "https://bolor-toli.com/result?";
+/* Copyright (c) 2017 Kenzo. All rights reserved. */
 
-const getWidth = () => {
-  return 710;
+const window_key = "windowId",
+  tab_key = "tabId",
+  bolor_url = "https://bolor-toli.com/result?",
+  top = 100,
+  top_key = "top",
+  left = 100,
+  left_key = "left",
+  height = 500,
+  height_key = "height",
+  width = 710,
+  width_key = "width";
+
+const getWidth = async () => {
+  const width_obj = await chrome.storage.local.get([width_key]);
+  return width_obj[width_key] ?? width;
 };
 
-const getHeight = () => {
-  return 500;
+const getHeight = async () => {
+  const height_obj = await chrome.storage.local.get([height_key]);
+  return height_obj[height_key] ?? height;
 };
 
-const getLeft = () => {
-  return 100;
+const getLeft = async () => {
+  const left_obj = await chrome.storage.local.get([left_key]);
+  return left_obj[left_key] ?? left;
 };
 
-const getTop = () => {
-  return 100;
+const getTop = async () => {
+  const top_obj = await chrome.storage.local.get([top_key]);
+  return top_obj[top_key] ?? top;
 };
 
 const removeWindowId = () => {
   chrome.storage.local.remove([window_key, tab_key]);
 };
 
-const getArgs = (url) => {
+const getArgs = async (url) => {
   return {
     focused: true,
-    width: getWidth(),
-    height: getHeight(),
-    left: getLeft(),
-    top: getTop(),
-    // type: "popup",
-    type: "normal",
+    width: await getWidth(),
+    height: await getHeight(),
+    left: await getLeft(),
+    top: await getTop(),
+    type: "popup",
     url: url,
   };
+};
+
+const updateArgs = (window) => {
+  chrome.storage.local.set({ [top_key]: window.top });
+  chrome.storage.local.set({ [left_key]: window.left });
+  chrome.storage.local.set({ [height_key]: window.height });
+  chrome.storage.local.set({ [width_key]: window.width });
 };
 
 const getUrl = (search_text, direction) => {
   const encodeQueryData = (data) => {
     const ret = [];
-    for (let d in data) ret.push(encodeURI(d) + "=" + encodeURI(data[d]));
+    for (let d in data)
+      ret.push(encodeURIComponent(d) + "=" + encodeURIComponent(data[d]));
     return ret.join("&");
   };
   const params = {
@@ -63,11 +84,15 @@ const getCurrentTab = async () => {
   return tab;
 };
 
-const createWindow = (url) => {
-  chrome.windows.create(getArgs(url), async (window) => {
-    chrome.storage.local.set({ [window_key]: window.id });
+const createWindow = async (url) => {
+  chrome.windows.create(await getArgs(url), async (window) => {
+    await chrome.storage.local.set({ [window_key]: window.id });
     const tab = await getCurrentTab();
-    chrome.storage.local.set({ [tab_key]: tab.id });
+    await chrome.storage.local.set({ [tab_key]: tab.id });
+
+    chrome.windows.onBoundsChanged.addListener((window) => {
+      updateArgs(window);
+    });
 
     chrome.windows.onRemoved.addListener(async (window_id) => {
       if (window_id == (await getWindowId())) {

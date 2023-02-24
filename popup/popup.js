@@ -1,4 +1,4 @@
-/* Copyright (c) 2017 SWGANZO. All rights reserved. */
+/* Copyright (c) 2017 Kenzo. All rights reserved. */
 
 import { bolorLocales } from "../scripts/locales.js";
 import { updateWindow } from "../scripts/window.js";
@@ -14,7 +14,7 @@ const getSelectBox = async () => {
   select_box.id = "selected_lang";
   select_box.classList.add("select-lang");
   const default_direction_obj = await chrome.storage.local.get([direction_key]);
-  console.log("default_direction", default_direction_obj.direction);
+
   for (const { direction, title } of bolorLocales) {
     const option = document.createElement("option");
     option.value = direction;
