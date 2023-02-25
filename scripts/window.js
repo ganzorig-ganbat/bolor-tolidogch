@@ -48,6 +48,18 @@ const getArgs = async (url) => {
   };
 };
 
+const getDefaultArgs = (url) => {
+  return {
+    focused: true,
+    width: width,
+    height: height,
+    left: left,
+    top: top,
+    type: "popup",
+    url: url,
+  };
+};
+
 const updateArgs = (window) => {
   chrome.storage.local.set({ [top_key]: window.top });
   chrome.storage.local.set({ [left_key]: window.left });
@@ -84,21 +96,31 @@ const getCurrentTab = async () => {
   return tab;
 };
 
+const setWindow = async (window) => {
+  await chrome.storage.local.set({ [window_key]: window.id });
+  const tab = await getCurrentTab();
+  await chrome.storage.local.set({ [tab_key]: tab.id });
+
+  chrome.windows.onBoundsChanged.addListener((window) => {
+    updateArgs(window);
+  });
+
+  chrome.windows.onRemoved.addListener(async (window_id) => {
+    if (window_id == (await getWindowId())) {
+      removeWindowId();
+    }
+  });
+};
+
 const createWindow = async (url) => {
   chrome.windows.create(await getArgs(url), async (window) => {
-    await chrome.storage.local.set({ [window_key]: window.id });
-    const tab = await getCurrentTab();
-    await chrome.storage.local.set({ [tab_key]: tab.id });
-
-    chrome.windows.onBoundsChanged.addListener((window) => {
-      updateArgs(window);
-    });
-
-    chrome.windows.onRemoved.addListener(async (window_id) => {
-      if (window_id == (await getWindowId())) {
-        removeWindowId();
-      }
-    });
+    if (chrome.runtime.lastError) {
+      chrome.windows.create(getDefaultArgs(url), async (window) => {
+        setWindow(window);
+      });
+    } else {
+      setWindow(window);
+    }
   });
 };
 
